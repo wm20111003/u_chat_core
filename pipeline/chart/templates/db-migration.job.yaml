@@ -1,0 +1,34 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "gateway.fullname" . }}-db-migrate
+  labels:
+    {{- include "gateway.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": pre-install,pre-upgrade
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec:
+  activeDeadlineSeconds: 100
+  template:
+    metadata:
+      name: {{ include "gateway.fullname" . }}-db-migrate
+    spec:
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      restartPolicy: Never
+      containers:
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        command: ["yarn",  "migrate:up"]
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        env:
+        {{- $dot := . }}
+        {{- range $env := .Values.env }}
+          - name: {{ $env }}
+            valueFrom:
+              secretKeyRef:
+                name: {{ template "gateway.name" $dot }}
+                key: {{ $env }}
+        {{- end }}

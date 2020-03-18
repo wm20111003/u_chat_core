@@ -1,0 +1,37 @@
+import "google/protobuf/any.proto";
+syntax = "proto3";
+
+package chat;
+
+service EmitService {
+  rpc EmitToRoom(Emit.EmitToRoomArgs) returns (Emit.Result) {};
+  rpc EmitToSockets(Emit.EmitToSocketsArgs) returns (Emit.Result) {};
+  rpc JoinRoom(Emit.JoinRoomArgs) returns (Emit.Result) {};
+  rpc LeaveRoom(Emit.LeaveRoomArgs) returns (Emit.Result) {};
+}
+
+message Emit {
+  message Result { string status = 1; }
+
+  message EmitToRoomArgs {
+    string room = 1;
+    string event = 2;
+    repeated google.protobuf.Any data = 3;
+  }
+
+  message EmitToSocketsArgs {
+    repeated string socketIds = 1;
+    string event = 2;
+    repeated google.protobuf.Any data = 3;
+  }
+
+  message JoinRoomArgs {
+    string room = 1;
+    repeated string socketIds = 2;
+  }
+
+  message LeaveRoomArgs {
+    string room = 1;
+    repeated string socketIds = 2;
+  }
+}

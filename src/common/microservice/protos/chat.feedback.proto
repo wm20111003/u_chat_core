@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package chat;
+
+service FeedbackService {
+  rpc GetList(Feedback.GetListParams) returns (Feedback.GetListResponse);
+  rpc Reply(Feedback.ReplyParams) returns (Feedback.ReplyResponse);
+  rpc Delete(Feedback.DeleteParams) returns (Feedback.DeleteResponse);
+}
+
+message Feedback {
+  message GetListParams {
+    string keyword = 1;
+    string phone = 2;
+    string startAt = 3;
+    string endAt = 4;
+    int32 pageSize = 5;
+    int32 pageNum = 6;
+    string status = 7;
+  }
+
+  message ListObject {
+    int32 id = 1;
+    string message = 2;
+    string reply = 3;
+    string memo = 4;
+    string status = 5;
+    repeated string photos = 6;
+    string nickname = 7;
+    string phone = 8;
+    string created_at = 9;
+    string uid = 10;
+  }
+
+  message GetListResponse {
+    int32 totalCount = 1;
+    repeated ListObject data = 2;
+  }
+
+  message ReplyParams {
+    int32 id = 1;
+    string reply = 2;
+    string memo = 3;
+  }
+
+  message ReplyResponse { string status = 1; }
+
+  message DeleteParams { int32 id = 1; }
+
+  message DeleteResponse { string status = 1; }
+}

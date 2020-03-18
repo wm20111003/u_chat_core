@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package chat;
+
+service MessageService {
+  rpc GetList(MessageType.GetListParams) returns (MessageType.GetListResponse);
+  rpc Audit(MessageType.AuditParams) returns (MessageType.AuditResponse);
+}
+
+message MessageType {
+  message GetListParams {
+    string keyword = 1;
+    string channelName = 2;
+    string startAt = 3;
+    string endAt = 4;
+    string type = 5;
+    int32 pageSize = 6;
+    int32 pageNum = 7;
+    string status = 8;
+  }
+
+  message ListObject {
+    int32 id = 1;
+    string type = 2;
+    string content = 3;
+    string status = 4;
+    string created_at = 5;
+    string file = 6;
+    string avatar = 7;
+    string nickname = 8;
+    string uid = 9;
+    string channel_name = 10;
+    string ip = 11;
+    string os = 12;
+    string carrier = 13;
+    string gender = 14;
+    string birthdate = 15;
+  }
+
+  message GetListResponse {
+    int32 totalCount = 1;
+    repeated ListObject data = 2;
+  }
+
+  message AuditParams {
+    int32 id = 1;
+    string status = 2;
+  }
+
+  message AuditResponse { string status = 1; }
+}

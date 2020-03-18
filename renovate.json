@@ -1,0 +1,12 @@
+{
+  "extends": ["config:base"],
+  "prHourlyLimit": 0,
+  "baseBranches": ["develop"],
+  "assignees": [
+    "Achilles",
+    "Jasper.zhang",
+    "josh.sancuo",
+    "Michael_Wang",
+    "Tylor"
+  ]
+}

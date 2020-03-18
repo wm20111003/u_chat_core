@@ -1,0 +1,97 @@
+# Default values for gateway.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 30
+
+image:
+  repository: registry.cn-shenzhen.aliyuncs.com/cyanchat/gateway
+  tag: latest
+  pullPolicy: Always
+
+imagePullSecrets:
+  - name: image-pull-secret
+
+nameOverride: gateway
+fullnameOverride: gateway
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: false
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name:
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: LoadBalancer
+  port: 50520
+
+env:
+  - ALIYUN_AK_ID
+  - ALIYUN_AK_SECRET
+  # Node 性能平台
+  - ALIYUN_NODE_APP_ID
+  - ALIYUN_NODE_APP_SECRET
+  # 阿里云短信服务
+  - ALIYUN_SMS_CN_TEMPLATE
+  - ALIYUN_SMS_CN_SIGN_NAME
+  - ALIYUN_SMS_UN_TEMPLATE
+  - ALIYUN_SMS_UN_SIGN_NAME
+  - ALIYUN_SMS_INTERVAL_LIMIT
+  # 阿里云OSS服务
+  - ALIYUN_OSS_BUCKET
+  - ALIYUN_OSS_ROLE_ARN
+  - ALIYUN_OSS_TOKEN_EXPIRE_IN
+  # Redis
+  - REDIS_HOST
+  - REDIS_PORT
+  - REDIS_USERNAME
+  - REDIS_PASSWORD
+  # PG
+  - TYPEORM_CONNECTION
+  - TYPEORM_USERNAME
+  - TYPEORM_PASSWORD
+  - TYPEORM_HOST
+  - TYPEORM_PORT
+  - TYPEORM_DATABASE
+  - TYPEORM_ENTITIES
+  - TYPEORM_MIGRATIONS
+  - TYPEORM_MIGRATIONS_DIR
+  - TYPEORM_SYNCHRONIZE
+  - TYPEORM_LOGGER
+  - TYPEORM_LOGGING
+  # JPush
+  - JPUSH_APP_KEY
+  - JPUSH_MASTER_SECRET
+  - JPUSH_PRODUCTION
+  # Socket
+  - SOCKET_ENCRYPT
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

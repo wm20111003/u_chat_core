@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package chat;
+
+service PreferenceService {
+  rpc List(Preference.ListParams) returns (Preference.ListResponse) {}
+  rpc Save(Preference.Attrs) returns (Preference.SaveResponse) {}
+}
+
+message Preference {
+
+  message ListParams { repeated string names = 1; }
+
+  message Attrs {
+    string name = 1;
+    string type = 2;
+    string value = 3;
+  }
+
+  message ListResponse {
+    string status = 1;
+    repeated Attrs data = 2;
+  }
+
+  message SaveResponse { string status = 1; }
+}

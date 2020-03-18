@@ -1,0 +1,96 @@
+syntax = "proto3";
+
+package chat;
+
+service UserService {
+  rpc GetList(User.GetListParams) returns (User.GetListResponse) {}
+  rpc GetDetail(User.GetDetailParams) returns (User.GetDetailResponse) {}
+  rpc Create(CreateParams) returns (CreateResponse) {}
+  rpc Edit(EditParams) returns (EditResponse) {}
+  rpc Delete(DeleteParams) returns (DeleteResponse) {}
+
+  rpc Statistics(StatisticsParams) returns (StatisticsResponse) {};
+  rpc GetActiveCount(GetActiveParams) returns (ActiveResponse) {};
+}
+
+message User {
+  message GetListParams {
+    string state = 1;
+    string keyword = 2;
+    string phone = 3;
+    int32 pageSize = 4;
+    int32 pageNum = 5;
+  }
+
+  message ListObject {
+    int32 id = 1;
+    string uid = 2;
+    string nickname = 3;
+    string gender = 4;
+    string avatar = 5;
+    string birthdate = 6;
+    string phone = 7;
+    string state = 8;
+    string created_at = 9;
+    int32 complaint_times = 10;
+    int32 prohibited_msg_count = 11;
+  }
+
+  message GetListResponse {
+    int32 totalCount = 1;
+    repeated ListObject data = 2;
+  }
+
+  message GetDetailParams { int32 id = 1; }
+
+  message GetDetailResponse { ListObject data = 1; }
+
+  message CreateParams {
+    string phone = 1;
+    string nickname = 2;
+    string gender = 3;
+    string avatar = 4;
+    string birthdate = 5;
+  }
+
+  message CreateResponse { ListObject data = 1; }
+
+  message EditParams {
+    int32 id = 1;
+    string nickname = 2;
+    string gender = 3;
+    string avatar = 4;
+    string birthdate = 5;
+    string state = 6;
+  }
+
+  message EditResponse { ListObject data = 1; }
+
+  message DeleteParams { int32 id = 1; }
+
+  message DeleteResponse { string status = 1; }
+
+  message StatisticsItem {
+    int32 userCount = 1;
+    string date = 2;
+    string time = 3;
+  }
+
+  message StatisticsParams {
+    repeated string types = 1;
+    string startAt = 2;
+    string endAt = 3;
+  }
+
+  message StatisticsResponse {
+    int32 registered = 1;
+    repeated StatisticsItem registeredDetails = 2;
+    int32 sumRegistered = 3;
+    int32 online = 4;
+    int32 active = 5;
+    repeated StatisticsItem activeDetails = 6;
+  }
+
+  message GetActiveParams { string intervalType = 1; }
+  message ActiveResponse { int32 userCount = 1; }
+}

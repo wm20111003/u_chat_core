@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+import public "chat.feedback.proto";
+import public "chat.complaint.proto";
+import public "chat.message.proto";
+import public "chat.user.proto";
+import public "chat.channel.proto";
+import public "chat.preference.proto";
+import public "chat.emit.proto";
+
+package chat;

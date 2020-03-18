@@ -1,0 +1,138 @@
+syntax = "proto3";
+
+package chat;
+
+service ChannelService {
+
+  rpc Update(Channel.UpdateParams) returns (Channel.SaveResponse) {}
+
+  rpc Delete(Channel.InputParams) returns (Channel.SaveResponse) {}
+
+  rpc Create(Channel.CreateParams) returns (Channel.SaveResponse) {}
+
+  rpc List(Channel.ListParams) returns (Channel.ListResponse) {}
+
+  rpc MemberList(Channel.MemberListParams)
+      returns (Channel.MemberListResponse) {}
+
+  rpc DeleteMembers(Channel.MemberInputParams) returns (Channel.SaveResponse) {}
+
+  rpc AddMembers(Channel.MemberInputParams) returns (Channel.SaveResponse) {}
+  rpc GetFriendsList(GetFriendsParams) returns (GetFriendsResponse);
+  rpc GetBlacklist(GetFriendsParams) returns (GetFriendsResponse);
+}
+
+message Channel {
+
+  message ListParams {
+    string keyword = 1;
+    int32 pageNum = 2;
+    int32 pageSize = 3;
+  }
+
+  message MemberListParams {
+    string keyword = 1;
+    int32 channelId = 2;
+    int32 pageNum = 3;
+    int32 pageSize = 4;
+  }
+
+  message CreateParams {
+    string owner_uid = 1;
+    string name = 2;
+    string announcement = 3;
+    int32 member_count_limit = 4;
+  }
+
+  message ListObject {
+    int32 id = 1;
+    string name = 2;
+    string avatar = 3;
+    string owner_nickname = 4;
+    string owner_avatar = 5;
+    string total_msg_count = 7;
+    string member_count = 8;
+    string member_count_limit = 9;
+    string status = 10;
+    string owner_id = 11;
+    string announcement = 12;
+    string complaint_times = 13;
+    string created_at = 14;
+    string owner_uid = 15;
+    Settings settings = 16;
+  }
+  message Settings {
+    bool ownerInviteOnly = 1;
+    bool banned = 2;
+    bool memberMasked = 3;
+  }
+  message ListResponse {
+    int32 totalCount = 1;
+    repeated ListObject data = 2;
+  }
+
+  message ListMemberObject {
+    int32 user_id = 1;
+    string nickname = 2;
+    string gender = 3;
+    string phone = 4;
+    string remark_nickname = 5;
+    string avatar = 6;
+    bool connected = 7;
+    string uid = 8;
+    bool isOwner = 9;
+  }
+
+  message MemberListResponse {
+    int32 totalCount = 1;
+    repeated ListMemberObject data = 2;
+  }
+
+  message InputParams {
+    int32 id = 1;
+    string name = 2;
+    string announcement = 3;
+    int32 member_count_limit = 4;
+    int32 ownerId = 5;
+    string owner_uid = 6;
+  }
+
+  message UpdateParams {
+    int32 id = 1;
+    string name = 2;
+    string announcement = 3;
+    int32 member_count_limit = 4;
+    int32 owner_id = 5;
+    string status = 6;
+    string owner_uid = 7;
+    Settings settings = 8;
+  }
+
+  message MemberInputParams {
+    int32 channelId = 1;
+    repeated int32 userIds = 2;
+  }
+
+  message SaveResponse { string status = 1; }
+
+  message FriendsListObject {
+    int32 id = 1;
+    string memo_alias = 2;
+    string friend_id = 3;
+    string uid = 4;
+    string nickname = 5;
+    string avatar = 6;
+  }
+
+  message GetFriendsParams {
+    int32 userId = 1;
+    string keyword = 2;
+    int32 pageNum = 3;
+    int32 pageSize = 4;
+  }
+
+  message GetFriendsResponse {
+    int32 totalCount = 1;
+    repeated FriendsListObject data = 2;
+  }
+}
